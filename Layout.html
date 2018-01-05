@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+      <title>LayoutScreen</title>
+      <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<style>
+				* {
+					box-sizing: border-box;
+				}
+				.row::after {
+					content: "";
+					clear: both;
+					display: table;
+				}
+				
+				[class*="col-"] {
+					float: left;
+					padding: 15px;
+					width: 100%;
+				}
+				
+				
+				h1 { 
+					margin-top: 0;
+					margin-bottom: 0;
+					margin-left: 0;
+					margin-right: 0;
+					text-align: center;
+				}
+				@media only screen and (min-width: 480px)  {
+				// Tablets
+				.col-t-1 {width: 8.33%;}
+				.col-t-2 {width: 16.66%;}
+				.col-t-3 {width: 25%;}
+				.col-t-4 {width: 33.33%;}
+				.col-t-5 {width: 41.66%;}
+				.col-t-6 {width: 50%;}
+				.col-t-7 {width: 58.33%;}
+				.col-t-8 {width: 66.66%;}
+				.col-t-9 {width: 75%;}
+				.col-t-10 {width: 83.33%;}
+				.col-t-11 {width: 91.66%;}
+				.col-t-12 {width: 100%;}
+					img {
+						width: 100%;
+						height: auto;
+					}
+				#ralgn{
+					float:right;
+					}
+				#lalgn{
+					float:left;
+				}
+				
+				
+				}
+				@media only screen and (min-width: 768px) {
+				// Desktop
+				.col-d-1 {width: 8.33%;}
+				.col-d-2 {width: 16.66%;}
+				.col-d-3 {width: 25%;}
+				.col-d-4 {width: 33.33%;}
+				.col-d-5 {width: 41.66%;}
+				.col-d-6 {width: 50%;}
+				.col-d-7 {width: 58.33%;}
+				.col-d-8 {width: 66.66%;}
+				.col-d-9 {width: 75%;}
+				.col-d-10 {width: 83.33%;}
+				.col-d-11 {width: 91.66%;}
+				.col-d-12 {width: 100%;}
+					img {
+						width: 100%;
+						height: auto;
+					}
+				}
+				
+				
+				
+			</style>
+   </head>
+	<body>
+	<div class="col-t-12 col-d-12">
+	<h1> Nature </h1>
+	</div>
+	<div class="col-t-12 col-d-12">
+	<p>Nature's peace will flow into you as sunshine flows into trees. The winds will blow their own freshness into you, and the storms their energy, while cares will drop away from you like the leaves of Autumn.The sea is emotion incarnate. It loves, hates, and weeps.</p>
+	</div>
+	<div class="row">
+	<div class="col-t-12 col-d-4">
+	<div class="col-t-7 col-d-12">
+	<picture>
+		<source srcset="Snow.jpg" media="(min-width: 480px)">
+		<img src="" alt=""/>
+	</picture>
+	</div>
+	<div class="col-t-5 col-d-12">
+	<h1>Snow</h1>
+	<p>Snow refers to forms of ice crystals that precipitate from the atmosphere and undergo changes on the Earth's surface.It pertains to frozen crystalline water throughout its life cycle, starting when, under suitable conditions, the ice crystals form in the atmosphere accumulate on surfaces.</p>
+	</div>
+	</div>
+	<div class="col-t-12 col-d-4">
+	<div id="ralgn" class="col-t-7 col-d-12">
+	<picture>
+		<source srcset="Fog.jpg" media="(min-width: 480px)">
+		<img src="" alt=""/>
+	</picture>
+	</div>
+	<div id="lalgn" class="col-t-5 col-d-12">
+	<h1>Fog</h1>
+	<p>Fog consists of visible cloud water droplets or ice crystals suspended in the air at or near the Earth's surface.Fog can be considered a type of low-lying cloud and is heavily influenced by nearby bodies of water, topography, and wind conditions. In turn, fog has affected many human activities, such as shipping, travel, and warfare.</p>
+	</div>
+	</div>
+	<div class="col-t-12 col-d-4">
+	<div class="col-t-7 col-d-12">
+	<picture>
+		<source srcset="Rain.jpg" media="(min-width: 480px)">
+		<img src="" alt=""/>
+	</picture>
+	</div>
+	<div class="col-t-5 col-d-12">
+	<h1>Rain</h1>
+	<p>Rain is liquid water in the form of droplets that have condensed from atmospheric water vapor and then becomes heavy enough to fall under gravity. Rain is a major component of the water cycle and is responsible for depositing most of the fresh water on the Earth.</p>
+	</div>
+	</div>
+	</div>
+	</body>
+</html>
