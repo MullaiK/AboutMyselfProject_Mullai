@@ -4,32 +4,38 @@
       <title>Login Page</title>
       <meta charset="UTF-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <link rel="stylesheet" type="text/css" href="formStyle.css">
+	  
 	  <script>
-			document.onchange = function (){
-				if(document.getElementById("name").value==''|
-				   document.getElementById("phone").value==''|
-				   document.getElementById("email").value==''|
-				   document.getElementById("address").value==''|
-				   document.getElementById("country").value==''|
-				   document.getElementById("zip").value==''){
-				   document.getElementById("submit").disabled = true;
-				   }else{
-				   document.getElementById("submit").disabled = false;
-				   }
-			}
-			var nameResult,phoneResult,emailResult,addressResult,countryResult,zipResult;
-			function validaten(){
-			var name = document.getElementById("name");
-			var pattern = /^[a-zA-Z\s]+$/;
-			nameResult = pattern.test(name.value);
-			if(!nameResult){
-				name.setCustomValidity('Username should only contain lowercase and uppercase letters along with a space. e.g. Surya Narayanan Ramamurthy');
-			}else{
-				name.setCustomValidity('');
+	  var formDivcount =0;
+			document.onchange = isHideSubmit;
+			
+			 function isHideSubmit(){
+			var isHide = true;
+			for(var i = formDivcount;i>=1;i--){
+				   isHide = (document.getElementById("name"+i).value==''|
+				   document.getElementById("phone"+i).value==''|
+				   document.getElementById("email"+i).value==''|
+				   document.getElementById("address"+i).value==''|
+				   document.getElementById("country"+i).value==''|
+				   document.getElementById("zip"+i).value=='');
+				if(isHide){
+					break;
 				}
 			}
-			function validatep(){
-			var phone = document.getElementById("phone");
+				   document.getElementById("submit").disabled = isHide;
+			}
+			var nameResult,phoneResult,emailResult,addressResult,countryResult,zipResult;
+			function validaten(name){
+				var pattern = /^[a-zA-Z\s]+$/;
+				nameResult = pattern.test(name.value);
+				if(!nameResult){
+					name.setCustomValidity('Username should only contain lowercase and uppercase letters along with a space. e.g. Surya Narayanan Ramamurthy');
+				}else{
+					name.setCustomValidity('');
+					}
+			}
+			function validatep(phone){
 			var phonepattern = /^[0-9]{10}$/;
 			phoneResult = phonepattern.test(phone.value);
 			if(!phoneResult){
@@ -38,8 +44,7 @@
 				phone.setCustomValidity('');
 				}
 			}
-			function validatee(){
-			var email = document.getElementById("email");
+			function validatee(email){
 			var emailpattern = /@gmail.com$/;
 			emailResult = emailpattern.test(email.value);
 			if(!emailResult){
@@ -48,8 +53,7 @@
 				email.setCustomValidity('');
 				}
 			}
-			function validatea(){
-			var address = document.getElementById("address");
+			function validatea(address){
 			var addresspattern = /^[a-zA-Z0-9,#\s-]+$/;
 			 addressResult = addresspattern.test(address.value);
 			if(!addressResult){
@@ -58,18 +62,15 @@
 				address.setCustomValidity('');
 				}
 			}
-			function validatec(){
-			var country = document.getElementById("country");
-			countryResult = true;
+			function validatec(country){
 			if(country.value == ""){
-				countryResult = false;
 				country.setCustomValidity('Select a Country from the list');
 			}else{
+				countryResult = true;
 				country.setCustomValidity('');
 				}
 			}
-			function validatez(){
-			var zip = document.getElementById("zip");
+			function validatez(zip){
 			var zippattern = /^[0-9]{6}$/;
 			zipResult = zippattern.test(zip.value);
 			if(!zipResult){
@@ -78,90 +79,93 @@
 				zip.setCustomValidity('');
 				}
 			}
-		function load(){
-		if(nameResult||phoneResult||emailResult||addressResult||countryResult||zipResult){
-			var str = {"Name":document.getElementById("name").value,
-						"Phone":document.getElementById("phone").value,
-						"Email":document.getElementById("email").value,
-						"Address":
-							[{"Street":document.getElementById("address").value,
-							"Country":document.getElementById("country").value,
-							"Zip":document.getElementById("zip").value}]};
 			
-			var obj = JSON.stringify(str);
-			document.open("text/html","replace");
-			document.write(obj);
-			document.close();
-			return false;
-		}else{
-			document.getElementById("name").value=document.getElementById("name").value;
-			document.getElementById("phone").value=document.getElementById("phone").value;
-			document.getElementById("email").value=document.getElementById("email").value;
-			document.getElementById("address").value=document.getElementById("address").value;
-			document.getElementById("country").value=document.getElementById("country").value;
-			document.getElementById("zip").value=document.getElementById("zip").value;
-			return false;
+		
+		function load(){
+			if(nameResult&&phoneResult&&emailResult&&addressResult&&countryResult&&zipResult){
+				var str;
+				var obj ='{"Userlist":[';
+				for(var i =1 ;i<=formDivcount;i++){
+					str ={"Name":document.getElementById("name"+i).value,"Phone":document.getElementById("phone"+i).value,"Email":document.getElementById("email"+i).value,"Address":[{"Street":document.getElementById("address"+i).value,"Country":document.getElementById("country"+i).value,"Zip":document.getElementById("zip"+i).value}]};
+					console.log(str);
+					obj+=JSON.stringify(str)+',';
+				}
+					obj = obj.substring(0, obj.length - 1);
+					obj+=']}'; 
+					document.open("text/html","replace");
+					document.write(obj);
+					document.close();
+					return false;
 			}
 	  }
-	  
+		function addElement() { 
+			var newDiv = document.createElement("table"); 
+			var currentDiv = document.getElementById("table");
+			var formDiv = document.getElementById("formDivCurrent");
+			formDivcount = document.querySelectorAll("[id^=table]").length;
+			newDiv.innerHTML = currentDiv.innerHTML;
+			newDiv.id="table"+formDivcount;
+			newDiv.align = "center";
+			newDiv.style.display = 'inline';
+			var i;
+			for (i = 0; i <= 10; i=i+2) { 
+				newDiv.childNodes[1].childNodes[i].childNodes[3].firstChild.id=currentDiv.childNodes[1].childNodes[i].childNodes[3].firstChild.id+formDivcount;
+			}
+			var numberDiv = document.createElement("h1");
+			numberDiv.id="number"+formDivcount;			
+			numberDiv.innerHTML = "User Details :No "+formDivcount;
+			formDiv.appendChild(newDiv);
+			formDiv.insertBefore(numberDiv,newDiv);
+			if(formDivcount==10){
+				document.getElementById("increment").style.display = 'none';
+			}
+			isHideSubmit();
+	}
 		
+		function removeElement() { 
+			formDivcount = document.querySelectorAll("h1").length;
+			var currentDiv = document.getElementById("table"+formDivcount);
+			currentDiv.parentElement.removeChild(currentDiv);
+			currentDiv = document.getElementById("number"+formDivcount);
+			currentDiv.parentElement.removeChild(currentDiv);
+			formDivcount = document.querySelectorAll("h1").length;
+			if(formDivcount==9){
+				document.getElementById("increment").style.display = 'inline';
+			}
+			isHideSubmit();
+			
+		}
+
+		window.onload = addElement;
+				
 	  </script>
-	  <style>
-		body {
-			background-color: lightblue;
-			text-align: center;
-			font-family: Arial, Helvetica, sans-serif;
-		}
-		table{
-			border-spacing: 50px 50px;
-			font-family: Arial, Helvetica, sans-serif;
-		}
-		input{
-			font-family: Arial, Helvetica, sans-serif;
-			border-color: blue;
-		}
-		input:valid{
-			border-color: green;
-		}
-		input:invalid{
-			border-color: red;
-		}
-		
-		select:valid{
-			border-color: green;
-		}
-		select:invalid{
-			border-color: red;
-		}
-		
-		
-		
-	  </style>
+	  
 	  </head>
 	<body>
-	<form id= "form" onsubmit="return load()">
-	<h1> User Details </h1>
-	<table align="center">
+	<form id= "form" >
+	
+	<div id="formDivCurrent">
+	
+	<table id="table" align="center" style="display: none">
 	  <tr>
 		<td>Name<b style="color:red">*</b>: </td>
-		<td><input id="name" type="text" name="name" onchange="return validaten();" title="Username should only contain lowercase and uppercase letters along with a space. e.g. Surya Narayanan Ramamurthy" maxlength="50" size="40" ></td> 
+		<td><input id="name" type="text" name="name" onchange="return validaten(this);" title="Username should only contain lowercase and uppercase letters along with a space. e.g. Surya Narayanan Ramamurthy" maxlength="50" size="40" ></td> 
 	  </tr>
 	  <tr>
 		<td>Phone<b style="color:red">*</b> :</td>
-		<td><input id="phone" type="text" name="phonenum" onchange="return validatep();" title="Phone number should be of ten digits" maxlength="10" size="40"></td> 
+		<td><input id="phone" type="text" name="phonenum" onchange="return validatep(this);" title="Phone number should be of ten digits" maxlength="10" size="40"></td> 
 	  </tr>
 	  <tr>
 		<td>Email<b style="color:red">*</b> : </td>
-		<td><input id="email" type="email" name="email" onchange="return validatee();" title="Enter only gmail address. e.g. john@gmail.com" size="40"></td> 
+		<td><input id="email" type="email" name="email" onchange="return validatee(this);" title="Enter only gmail address. e.g. john@gmail.com" size="40"></td> 
 	  </tr>
 	  <tr>
-		<td><p>Address</p>Street<b style="color:red">*</b> : </td>
-		<td><br><br><br><input id="address" type="text" name="address" onchange="return validatea();" title="Enter a valid address. It can contain #(hash),,(comma),-(hypen)" maxlength="50" size="40"></td> 
+		<td>Address<br>Street<b style="color:red">*</b> : </td>
+		<td><input id="address" type="text" name="address" onchange="return validatea(this);" title="Enter a valid address. It can contain #(hash),,(comma),-(hypen)" maxlength="50" size="40"></td> 
 	  </tr>
 	  <tr>
 		<td>Country<b style="color:red">*</b>: </td>
-		<td>
-			<select id="country" name="country" title="Select a Country from the list" onchange="return validatec();" >
+		<td><select id="country" name="country" title="Select a Country from the list" onchange="return validatec(this);" style="width: 313px;height:21px;border-width: 2px;">
 			<option value="" >-- Select a country --</option>
 			<option value="US">US</option>
 			<option value="India">India</option>
@@ -172,14 +176,16 @@
 	  </tr>
 	  <tr>
 		<td>Zipcode<b style="color:red">*</b>: </td>
-		<td><input id="zip" type="text" name="zipcode" onchange="return validatez();" title="Enter valid zip code of six digits. e.g. 234567" maxlength="6" size="40"></td> 
+		<td><input id="zip" type="text" name="zipcode" onchange="return validatez(this);" title="Enter valid zip code of six digits. e.g. 234567" maxlength="6" size="40"></td> 
 	  </tr>
 	</table>
-	<input id="submit" type="submit" name="Submit" disabled><br><br>
+	</div>
+	<div>
+		<input id="increment" type="button" value="+" align="right" onclick="return addElement();">
+		<input id="decrement" type="button" value="-" align="right" onclick="return removeElement();" ><br><br>
+	</div>
+	<input id="submit" type="submit" name="Submit" onclick="return load();" disabled ><br><br>
 	<i><b style="color:red">*</b>Required field</i>
 	</form>
-	<div>
-	
-	</div>
 	</body>
 </html>
